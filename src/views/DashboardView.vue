@@ -9,9 +9,16 @@ import RenameModal from "@/components/modals/RenameModal.vue";
 const { organization } = useOrganization();
 const route = useRoute();
 
-const query = computed(() => {
+const checkedQuery = computed(() => {
   let newQuery = { ...route.query };
-  delete newQuery?.__clerk_handshake;
+  const acceptedQueryParams = ["search", "favorites"];
+
+  Object.keys(newQuery).forEach((param) => {
+    if (!acceptedQueryParams.includes(param)) {
+      delete newQuery[param];
+    }
+  });
+
   return newQuery;
 });
 </script>
@@ -21,8 +28,8 @@ const query = computed(() => {
     <BoardList
       v-if="organization?.id"
       :orgId="organization?.id"
-      :query="query"
-      :key="organization?.id + JSON.stringify(query)"
+      :query="checkedQuery"
+      :key="organization?.id + JSON.stringify(checkedQuery)"
     />
     <EmptyOrg v-else="!organization?.id" />
     <RenameModal />
