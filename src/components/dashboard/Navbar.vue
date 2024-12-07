@@ -2,8 +2,14 @@
 import { UserButton, OrganizationSwitcher, useClerk } from "vue-clerk";
 import SearchInput from "@/components/dashboard/SearchInput.vue";
 import InviteButton from "@/components/dashboard/InviteButton.vue";
+import { Switch } from "@/components/ui/switch";
+import { watch, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
+const route = useRoute();
+const router = useRouter();
 const { organization } = useClerk();
+const isFavorite = ref(false);
 
 const appearance = {
   elements: {
@@ -24,6 +30,21 @@ const appearance = {
     },
   },
 };
+
+const onUpdate = (isOn: boolean) => {
+  const newQuery = isOn ? { favorites: true } : {};
+  router.push({ path: "/", query: newQuery });
+};
+
+watch(
+  () => route.query,
+  (newVal) => {
+    isFavorite.value = "favorites" in newVal;
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>
@@ -32,7 +53,14 @@ const appearance = {
       <SearchInput />
     </div>
     <div class="block lg:hidden flex-1">
-      <OrganizationSwitcher hidePersonal :appearance="appearance" />
+      <div class="flex items-center">
+        <OrganizationSwitcher hidePersonal :appearance="appearance" />
+        <Switch
+          :checked="isFavorite"
+          @update:checked="onUpdate"
+          class="ml-3 mr-2"
+        />Favorites
+      </div>
     </div>
 
     <InviteButton v-if="organization" />
