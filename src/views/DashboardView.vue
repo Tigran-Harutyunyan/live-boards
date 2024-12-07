@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useOrganization } from "vue-clerk";
 import EmptyOrg from "@/components/dashboard/EmptyOrg.vue";
@@ -8,8 +9,11 @@ import RenameModal from "@/components/modals/RenameModal.vue";
 const { organization } = useOrganization();
 const route = useRoute();
 
-const query = route.query;
-delete query?.__clerk_handshake;
+const query = computed(() => {
+  let newQuery = { ...route.query };
+  delete newQuery?.__clerk_handshake;
+  return newQuery;
+});
 </script>
 
 <template>
