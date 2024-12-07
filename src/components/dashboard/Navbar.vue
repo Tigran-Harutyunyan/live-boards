@@ -59,7 +59,7 @@ watch(
           :checked="isFavorite"
           @update:checked="onUpdate"
           class="ml-3 mr-2"
-        />Favorites
+        /><span class="text-sm font-medium">Favorites</span>
       </div>
     </div>
 
