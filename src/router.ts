@@ -28,10 +28,8 @@ const router = createRouter({
 router.beforeEach((to, _, next) => {
   const { isSignedIn } = storeToRefs(useUser());
 
-  if (isSignedIn.value == undefined) next();
-
-  if (to.meta.requiresAuth && !isSignedIn.value) {
-    return '/sign-in'
+  if (to.meta.requiresAuth && isSignedIn.value !== undefined && !isSignedIn.value) {
+    next('/sign-in');
   } else {
     next();
   }
