@@ -4,17 +4,17 @@ import { useUser } from "@/store/useUser";
 import { storeToRefs } from "pinia";
 
 const routes: Array<RouteRecordRaw> = [
-  { path: "/sign-in", component: () => import("@/views/SignInView.vue"), meta: { layout: 'AuthLayout' } },
-  { path: "/sign-up", component: () => import("@/views/SignUpView.vue"), meta: { layout: 'AuthLayout' } },
+  { path: "/sign-in", component: () => import("@/views/SignInView.vue") },
+  { path: "/sign-up", component: () => import("@/views/SignUpView.vue") },
   {
     path: "/",
     component: () => import("@/views/DashboardView.vue"),
-    meta: { layout: 'DashboardLayout', requiresAuth: true }
+    meta: { requiresAuth: true }
   },
   {
     path: "/board/:boardId",
     component: () => import("@/views/BoardView.vue"),
-    meta: { layout: 'BoardLayout', requiresAuth: true }
+    meta: { requiresAuth: true }
   },
 
   { path: '/:pathMatch(.*)*', redirect: '/' }

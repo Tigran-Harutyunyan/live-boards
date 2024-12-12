@@ -5,7 +5,6 @@ import { useAuth, ClerkLoaded, ClerkLoading } from "vue-clerk";
 import { watch } from "vue";
 import { Toaster } from "@/components/ui/sonner";
 import { useUser } from "@/store/useUser";
-import AppLayout from "@/layouts/AppLayout.vue";
 
 const router = useRouter();
 const { isSignedIn } = useAuth();
@@ -33,6 +32,6 @@ watch(
   </ClerkLoading>
   <ClerkLoaded>
     <Toaster />
-    <AppLayout v-if="isSignedIn !== undefined" />
+    <RouterView v-if="isSignedIn !== undefined" />
   </ClerkLoaded>
 </template>
